@@ -11,6 +11,22 @@ jobs:
   test:
     name: golang-test
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: simple_bank
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - uses: actions/checkout@v4
 
@@ -18,6 +34,14 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.25'
+
+    - name: install golang-migrate
+      run: |
+        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.19.1/migrate.linux-amd64.tar.gz | tar xvz
+        sudo mv migrate.linux-amd64 /usr/local/bin/migrate
+
+    - name: Run Migration
+      run: make migrateup
 
     - name: Test
       run: make test
