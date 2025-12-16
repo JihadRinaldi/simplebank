@@ -43,7 +43,7 @@ func (_m *Store) AddAccountBalance(ctx context.Context, arg db.AddAccountBalance
 }
 
 // CreateAccount provides a mock function with given fields: ctx, arg
-func (_m *Store) CreateAccount(ctx context.Context, arg db.CreateAccountRequest) (db.Account, error) {
+func (_m *Store) CreateAccount(ctx context.Context, arg db.CreateAccountParams) (db.Account, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
@@ -52,16 +52,16 @@ func (_m *Store) CreateAccount(ctx context.Context, arg db.CreateAccountRequest)
 
 	var r0 db.Account
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, db.CreateAccountRequest) (db.Account, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateAccountParams) (db.Account, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, db.CreateAccountRequest) db.Account); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateAccountParams) db.Account); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		r0 = ret.Get(0).(db.Account)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, db.CreateAccountRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, db.CreateAccountParams) error); ok {
 		r1 = rf(ctx, arg)
 	} else {
 		r1 = ret.Error(1)
