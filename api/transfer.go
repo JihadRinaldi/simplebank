@@ -61,13 +61,13 @@ func (server *Server) transferValidation(ctx *gin.Context, fromAccountID int64, 
 	}
 
 	if fromAccount.Currency != arg.Currency {
-		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", fromAccount, fromAccount.Currency, arg.Currency)
+		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", fromAccount.ID, fromAccount.Currency, arg.Currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return false
 	}
 
 	if toAccount.Currency != arg.Currency {
-		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", toAccount, toAccount.Currency, arg.Currency)
+		err := fmt.Errorf("account [%d] currency mismatch: %s vs %s", toAccount.ID, toAccount.Currency, arg.Currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return false
 	}
