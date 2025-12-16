@@ -19,4 +19,10 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc
+server:
+	go run main.go
+
+mockery:
+	mockery --name=Store --recursive
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mockery
