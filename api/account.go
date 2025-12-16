@@ -29,7 +29,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 
-	arg := db.CreateAccountParams{
+	arg := db.CreateAccountRequest{
 		Owner:    req.Owner,
 		Balance:  0,
 		Currency: req.Currency,

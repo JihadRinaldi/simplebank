@@ -25,7 +25,7 @@ func TestMain(m *testing.M) {
 		log.Fatalln("cannot ping db:", err)
 	}
 
-	testStore = *NewStore(testDB)
+	testStore = NewStore(testDB)
 	testQueries = New(testDB)
 
 	code := m.Run()
