@@ -126,6 +126,34 @@ func (_m *Store) CreateTransfer(ctx context.Context, arg db.CreateTransferParams
 	return r0, r1
 }
 
+// CreateUser provides a mock function with given fields: ctx, arg
+func (_m *Store) CreateUser(ctx context.Context, arg db.CreateUserParams) (db.User, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateUser")
+	}
+
+	var r0 db.User
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateUserParams) (db.User, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateUserParams) db.User); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.User)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.CreateUserParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeleteAccount provides a mock function with given fields: ctx, id
 func (_m *Store) DeleteAccount(ctx context.Context, id int64) error {
 	ret := _m.Called(ctx, id)
@@ -249,6 +277,34 @@ func (_m *Store) GetTransfer(ctx context.Context, id int64) (db.Transfer, error)
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
 		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetUser provides a mock function with given fields: ctx, username
+func (_m *Store) GetUser(ctx context.Context, username string) (db.User, error) {
+	ret := _m.Called(ctx, username)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUser")
+	}
+
+	var r0 db.User
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (db.User, error)); ok {
+		return rf(ctx, username)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) db.User); ok {
+		r0 = rf(ctx, username)
+	} else {
+		r0 = ret.Get(0).(db.User)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, username)
 	} else {
 		r1 = ret.Error(1)
 	}
