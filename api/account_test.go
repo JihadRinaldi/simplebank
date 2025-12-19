@@ -10,7 +10,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/JihadRinaldi/simplebank/api"
 	db "github.com/JihadRinaldi/simplebank/db/sqlc"
 	mockdb "github.com/JihadRinaldi/simplebank/mocks"
 	"github.com/gin-gonic/gin"
@@ -126,7 +125,7 @@ func TestCreateAccountAPI(t *testing.T) {
 			store := mockdb.NewStore(t)
 			tc.buildStubs(store)
 
-			server := api.NewServer(store)
+			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			data, err := json.Marshal(tc.body)
@@ -214,7 +213,7 @@ func TestGetAccountAPI(t *testing.T) {
 			store := mockdb.NewStore(t)
 			tc.buildStubs(store)
 
-			server := api.NewServer(store)
+			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := "/accounts/" + tc.accountID
@@ -325,7 +324,7 @@ func TestListAccountAPI(t *testing.T) {
 			store := mockdb.NewStore(t)
 			tc.buildStubs(store)
 
-			server := api.NewServer(store)
+			server := NewTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := "/accounts"
