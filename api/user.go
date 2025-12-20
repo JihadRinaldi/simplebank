@@ -64,7 +64,7 @@ func (server *Server) CreateUser(ctx *gin.Context) {
 		Email:          req.Email,
 	}
 
-	user, err := server.store.CreateUser(ctx, arg)
+	user, err := server.Store.CreateUser(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -88,7 +88,7 @@ func (server *Server) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := server.store.GetUser(ctx, req.Username)
+	user, err := server.Store.GetUser(ctx, req.Username)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -100,9 +100,9 @@ func (server *Server) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := server.tokenMaker.CreateToken(
+	accessToken, err := server.TokenMaker.CreateToken(
 		req.Username,
-		server.config.AccessTokenDuration,
+		server.Config.AccessTokenDuration,
 	)
 
 	if err != nil {

@@ -2,14 +2,15 @@ package api
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	db "github.com/JihadRinaldi/simplebank/db/sqlc"
+	"github.com/JihadRinaldi/simplebank/token"
 	"github.com/gin-gonic/gin"
 )
 
 type CreateAccountRequest struct {
-	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency" binding:"required,currency"`
 }
 
@@ -29,13 +30,14 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 
+	authPayload := ctx.MustGet(AuthorizationPayloadKey).(*token.Payload)
 	arg := db.CreateAccountParams{
-		Owner:    req.Owner,
+		Owner:    authPayload.Username,
 		Balance:  0,
 		Currency: req.Currency,
 	}
 
-	acc, err := server.store.CreateAccount(ctx, arg)
+	acc, err := server.Store.CreateAccount(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -51,13 +53,20 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
-	acc, err := server.store.GetAccount(ctx, req.ID)
+	acc, err := server.Store.GetAccount(ctx, req.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	authPayload := ctx.MustGet(AuthorizationPayloadKey).(*token.Payload)
+	if authPayload.Username != acc.Owner {
+		err := fmt.Errorf("unauthorized access")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
 
@@ -71,12 +80,14 @@ func (server *Server) listAccount(ctx *gin.Context) {
 		return
 	}
 
+	authPayload := ctx.MustGet(AuthorizationPayloadKey).(*token.Payload)
 	arg := db.ListAccountsParams{
+		Owner:  authPayload.Username,
 		Limit:  req.Size,
 		Offset: (req.Page - 1) * req.Size,
 	}
 
-	accounts, err := server.store.ListAccounts(ctx, arg)
+	accounts, err := server.Store.ListAccounts(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
