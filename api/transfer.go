@@ -1,10 +1,12 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
 	db "github.com/JihadRinaldi/simplebank/db/sqlc"
+	"github.com/JihadRinaldi/simplebank/token"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,7 +34,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 		Amount:        req.Amount,
 	}
 
-	result, err := server.store.TransferTx(ctx, arg)
+	result, err := server.Store.TransferTx(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -42,15 +44,22 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 }
 
 func (server *Server) transferValidation(ctx *gin.Context, fromAccountID int64, toAccountID int64, arg CreateTransferRequest) bool {
-	fromAccount, err := server.store.GetAccount(ctx, fromAccountID)
+	fromAccount, err := server.Store.GetAccount(ctx, fromAccountID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return false
 	}
 
-	toAccount, err := server.store.GetAccount(ctx, toAccountID)
+	toAccount, err := server.Store.GetAccount(ctx, toAccountID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return false
+	}
+
+	authPayload := ctx.MustGet(AuthorizationPayloadKey).(*token.Payload)
+	if fromAccount.Owner != authPayload.Username {
+		err := errors.New("unauthorized access")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
 		return false
 	}
 

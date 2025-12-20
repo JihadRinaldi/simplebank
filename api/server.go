@@ -12,10 +12,10 @@ import (
 )
 
 type Server struct {
-	store      db.Store
-	tokenMaker token.Maker
-	router     *gin.Engine
-	config     util.Config
+	Store      db.Store
+	TokenMaker token.Maker
+	Router     *gin.Engine
+	Config     util.Config
 }
 
 func NewServer(store db.Store, config util.Config) (*Server, error) {
@@ -25,9 +25,9 @@ func NewServer(store db.Store, config util.Config) (*Server, error) {
 	}
 
 	server := &Server{
-		store:      store,
-		tokenMaker: token,
-		config:     config,
+		Store:      store,
+		TokenMaker: token,
+		Config:     config,
 	}
 
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
@@ -45,21 +45,22 @@ func (server *Server) SetupRouter() {
 	router.POST("/users", server.CreateUser)
 	router.POST("/users/login", server.LoginUser)
 
-	router.POST("/accounts", server.createAccount)
-	router.GET("/accounts/:id", server.getAccount)
-	router.GET("/accounts", server.listAccount)
+	authRoutes := router.Group("/").Use(AuthMiddleware(server.TokenMaker))
+	authRoutes.POST("/accounts", server.createAccount)
+	authRoutes.GET("/accounts/:id", server.getAccount)
+	authRoutes.GET("/accounts", server.listAccount)
 
-	router.POST("/transfers", server.createTransfer)
+	authRoutes.POST("/transfers", server.createTransfer)
 
-	server.router = router
+	server.Router = router
 }
 
 func (server *Server) Start(address string) error {
-	return server.router.Run(address)
+	return server.Router.Run(address)
 }
 
 func (server *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	server.router.ServeHTTP(w, r)
+	server.Router.ServeHTTP(w, r)
 }
 
 func errorResponse(err error) gin.H {
