@@ -185,7 +185,8 @@ Configuration is managed through the [app.env](app.env) file:
 ```env
 DB_DRIVER=postgres
 DB_SOURCE=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
-SERVER_ADDRESS=0.0.0.0:8000
+HTTP_SERVER_ADDRESS=0.0.0.0:8000
+GRPC_SERVER_ADDRESS=0.0.0.0:9000
 TOKEN_SYMMETRIC_KEY=12345678901234567890123456789012
 ACCESS_TOKEN_DURATION=10m
 ```
