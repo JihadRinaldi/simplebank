@@ -36,7 +36,7 @@ services:
     command: ["/app/main"]
 
 networks:
-  bank-network:
+  bank-network: 
     driver: bridge
 
 volumes:
