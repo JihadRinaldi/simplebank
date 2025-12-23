@@ -45,7 +45,25 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
     
     - name: Update kube config
-      run: aws eks update-kubeconfig --name simple-bank --region ap-southeast-1
+      run: |
+        aws eks update-kubeconfig --name simple-bank --region ap-southeast-1 --verbose
+        echo "Current context:"
+        kubectl config current-context
+        echo "Testing connection:"
+        kubectl get svc || echo "Failed to connect to cluster"
+
+    - name: Debug AWS and Kubectl
+      run: |
+        echo "AWS Identity:"
+        aws sts get-caller-identity
+        echo "EKS Clusters:"
+        aws eks list-clusters --region ap-southeast-1
+        echo "Updating kubeconfig:"
+        aws eks update-kubeconfig --name simple-bank --region ap-southeast-1 --verbose
+        echo "Kubectl config:"
+        kubectl config view
+        echo "Current context:"
+        kubectl config current-context
 
     - name: Deploy image to Amazon EKS
       run: |
