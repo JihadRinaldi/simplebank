@@ -19,8 +19,11 @@ require (
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
+	github.com/rs/zerolog v1.34.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251022142026-3a174f9686a8
 )
+
+require github.com/mattn/go-colorable v0.1.14 // indirect
 
 require (
 	github.com/bytedance/sonic v1.14.0 // indirect
@@ -63,7 +66,7 @@ require (
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
 	google.golang.org/protobuf v1.36.10
