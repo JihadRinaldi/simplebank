@@ -212,6 +212,34 @@ func (_m *Store) CreateUserTx(ctx context.Context, arg db.CreateUserTxParams) (d
 	return r0, r1
 }
 
+// CreateVerifyEmail provides a mock function with given fields: ctx, arg
+func (_m *Store) CreateVerifyEmail(ctx context.Context, arg db.CreateVerifyEmailParams) (db.VerifyEmail, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateVerifyEmail")
+	}
+
+	var r0 db.VerifyEmail
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateVerifyEmailParams) (db.VerifyEmail, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateVerifyEmailParams) db.VerifyEmail); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.VerifyEmail)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.CreateVerifyEmailParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeleteAccount provides a mock function with given fields: ctx, id
 func (_m *Store) DeleteAccount(ctx context.Context, id int64) error {
 	ret := _m.Called(ctx, id)
@@ -564,6 +592,62 @@ func (_m *Store) UpdateUser(ctx context.Context, arg db.UpdateUserParams) (db.Us
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, db.UpdateUserParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateVerifyEmail provides a mock function with given fields: ctx, arg
+func (_m *Store) UpdateVerifyEmail(ctx context.Context, arg db.UpdateVerifyEmailParams) (db.VerifyEmail, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateVerifyEmail")
+	}
+
+	var r0 db.VerifyEmail
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.UpdateVerifyEmailParams) (db.VerifyEmail, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.UpdateVerifyEmailParams) db.VerifyEmail); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.VerifyEmail)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.UpdateVerifyEmailParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// VerifyEmailTx provides a mock function with given fields: ctx, arg
+func (_m *Store) VerifyEmailTx(ctx context.Context, arg db.VerifyEmailTxParams) (db.VerifyEmailTxResult, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for VerifyEmailTx")
+	}
+
+	var r0 db.VerifyEmailTxResult
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.VerifyEmailTxParams) (db.VerifyEmailTxResult, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.VerifyEmailTxParams) db.VerifyEmailTxResult); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.VerifyEmailTxResult)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.VerifyEmailTxParams) error); ok {
 		r1 = rf(ctx, arg)
 	} else {
 		r1 = ret.Error(1)

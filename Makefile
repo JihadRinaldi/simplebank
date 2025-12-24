@@ -27,13 +27,16 @@ sqlc:
 	sqlc generate
 
 test:
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 
 server:
 	go run main.go
 
 mockery:
 	mockery --name=Store --recursive
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
 
 proto: 
 	rm -f pb/*.go
@@ -50,4 +53,7 @@ evans:
 redis:
 	docker run --name redis --network bank-network -p 6379:6379 -d redis:7-alpine
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mockery migrateup_n migratedown_n proto evans redis
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mockery migrateup_n migratedown_n proto evans redis db_schema new_migration
