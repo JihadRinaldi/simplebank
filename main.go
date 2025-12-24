@@ -19,6 +19,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/hibiken/asynq"
+	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -109,16 +110,34 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodOptions,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders: []string{
+			"Content-Type",
+			"Authorization",
+		},
+		AllowCredentials: true,
+	})
+
 	listener, err := net.Listen("tcp", config.HTTPServerAddress)
 	if err != nil {
 		log.Fatal().Msg("cannot create listener:")
 	}
 
 	log.Info().Msgf("start HTTP gateway server at %s", listener.Addr().String())
-	handler := gapi.HttpLogger(mux)
+	handler := gapi.HttpLogger(c.Handler(mux))
 	err = http.Serve(listener, handler)
 	if err != nil {
-		log.Fatal().Msg("cannot start gRPC server:")
+		log.Fatal().Msg("cannot start HTTP gateway server:")
 	}
 }
 
