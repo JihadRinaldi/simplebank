@@ -19,11 +19,19 @@ require (
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
+	github.com/hibiken/asynq v0.25.1
 	github.com/rs/zerolog v1.34.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251022142026-3a174f9686a8
 )
 
-require github.com/mattn/go-colorable v0.1.14 // indirect
+require (
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
+	github.com/redis/go-redis/v9 v9.7.0 // indirect
+	github.com/robfig/cron/v3 v3.0.1 // indirect
+	golang.org/x/time v0.12.0 // indirect
+)
 
 require (
 	github.com/bytedance/sonic v1.14.0 // indirect
@@ -69,6 +77,6 @@ require (
 	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
-	google.golang.org/protobuf v1.36.10
+	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

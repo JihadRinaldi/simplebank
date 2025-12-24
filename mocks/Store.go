@@ -184,6 +184,34 @@ func (_m *Store) CreateUser(ctx context.Context, arg db.CreateUserParams) (db.Us
 	return r0, r1
 }
 
+// CreateUserTx provides a mock function with given fields: ctx, arg
+func (_m *Store) CreateUserTx(ctx context.Context, arg db.CreateUserTxParams) (db.CreateUserTxResult, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateUserTx")
+	}
+
+	var r0 db.CreateUserTxResult
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateUserTxParams) (db.CreateUserTxResult, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.CreateUserTxParams) db.CreateUserTxResult); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.CreateUserTxResult)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.CreateUserTxParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeleteAccount provides a mock function with given fields: ctx, id
 func (_m *Store) DeleteAccount(ctx context.Context, id int64) error {
 	ret := _m.Called(ctx, id)
