@@ -20,8 +20,8 @@ require (
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/hibiken/asynq v0.25.1
-	github.com/jackc/pgx/v5 v5.5.4
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
+	github.com/rs/cors v1.11.1
 	github.com/rs/zerolog v1.34.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251022142026-3a174f9686a8
 )
